@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1119">
+<meta name="description" content="WheelLab Pro: сравнение размеров шин, дисков, ET, PCD и примерка кузовных силуэтов.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0b121a"><title>WheelLab Pro — конфигуратор дисков и шин</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">W</div><div><div class="eyebrow">WheelLab · Fitment studio</div><h1>WheelLab Pro</h1></div></div><div class="topnote"><strong>Шины · диски · вылет · посадка</strong><br>Автономный конфигуратор · данные сохраняются в этом браузере</div></header>
+<div class="layout">
+<aside class="panel">
+<h2>Автомобиль и размеры</h2><p class="sub"><span id="profileCount">Профили автомобилей</span> по поколениям и кузовам. Для точного допуска сверяйте VIN / CoC и рынок поставки.</p>
+<div class="section-title">Автомобиль</div>
+<div class="fieldgrid">
+ <div class="field"><label>Марка</label><select id="make"></select></div>
+ <div class="field"><label>Модель</label><select id="model"></select></div>
+ <div class="field full"><label>Поколение / версия</label><select id="generation"></select></div>
+</div>
+<div class="vehiclebar" style="margin-top:10px"><div class="vehiclemeta" id="vehicleMeta">Выберите профиль автомобиля</div><span class="status-pill" id="dataStatus"><i class="dot"></i> Справочные данные</span></div>
+<div class="section-title">Доступные комбинации</div><div class="preset-list" id="presetList"></div>
+<div class="divider"></div>
+<div class="section-title">Редактируемый комплект <span class="tag new" id="editTag">НОВЫЙ</span></div>
+<div class="tabs"><button data-tab="base">Исходный</button><button class="active" data-tab="candidate">Новый</button></div>
+<div id="baseFields" class="hidden">
+ <div class="fieldgrid">
+  <div class="field"><label>Ширина шины, мм</label><input id="bW" type="number" min="100" max="400" value="225"></div><div class="field"><label>Профиль, %</label><input id="bA" type="number" min="20" max="95" value="45"></div>
+  <div class="field"><label>Диаметр шины, R</label><input id="bD" type="number" min="10" max="30" value="17"></div><div class="field"><label>Ширина диска, J</label><input id="bJ" type="number" min="4" max="15" step=".5" value="7.5"></div>
+  <div class="field"><label>Вылет, ET (мм)</label><input id="bET" type="number" min="-50" max="100" value="51"></div><div class="field"><label>PCD / сверловка</label><input id="bPCD" value="5x112"></div>
+  <div class="field"><label>Центральное отверстие, мм</label><input id="bCB" type="number" step=".1" value="57.1"></div><div class="field"><label>Крепёж / резьба</label><input id="bBolt" value="M14x1.5"></div>
+ </div><div class="hint">Исходный комплект нужен как точка отсчёта для сравнения.</div>
+</div>
+<div id="candidateFields">
+ <div class="fieldgrid">
+  <div class="field"><label>Ширина шины, мм</label><input id="nW" type="number" min="100" max="400" value="225"></div><div class="field"><label>Профиль, %</label><input id="nA" type="number" min="20" max="95" value="40"></div>
+  <div class="field"><label>Диаметр шины, R</label><input id="nD" type="number" min="10" max="30" value="18"></div><div class="field"><label>Ширина диска, J</label><input id="nJ" type="number" min="4" max="15" step=".5" value="7.5"></div>
+  <div class="field"><label>Вылет, ET (мм)</label><input id="nET" type="number" min="-50" max="100" value="51"></div><div class="field"><label>PCD / сверловка</label><input id="nPCD" value="5x112"></div>
+  <div class="field"><label>Центральное отверстие, мм</label><input id="nCB" type="number" step=".1" value="57.1"></div><div class="field"><label>Крепёж / резьба</label><input id="nBolt" value="M14x1.5"></div>
+  <div class="field full"><label>Название комплекта для сохранения</label><input id="setName" value="Новый комплект"></div>
+ </div>
+ <div class="btnrow" style="margin-top:12px"><button class="btn" id="copyBase">Скопировать исходный</button><button class="btn primary" id="saveSet">＋ В гараж / сравнить</button></div>
+</div>
+<div class="divider"></div>
+<details><summary>Добавить свой автомобиль в справочник</summary><div class="details-body">
+ <div class="fieldgrid">
+  <div class="field"><label>Марка</label><input id="cMake" placeholder="Например, Audi"></div><div class="field"><label>Модель</label><input id="cModel" placeholder="Например, A4"></div>
+  <div class="field full"><label>Поколение / год / версия</label><input id="cGen" placeholder="B8 · 2008–2015 · 2.0 TFSI"></div>
+  <div class="field"><label>Шина, ширина</label><input id="cW" type="number" value="225"></div><div class="field"><label>Профиль, %</label><input id="cA" type="number" value="50"></div>
+  <div class="field"><label>Диаметр R</label><input id="cD" type="number" value="17"></div><div class="field"><label>Диск, J</label><input id="cJ" type="number" step=".5" value="7.5"></div>
+  <div class="field"><label>ET, мм</label><input id="cET" type="number" value="45"></div><div class="field"><label>PCD</label><input id="cPCD" placeholder="5x112"></div>
+  <div class="field"><label>ЦО, мм</label><input id="cCB" type="number" step=".1" placeholder="66.6"></div><div class="field"><label>Резьба</label><input id="cBolt" placeholder="M14x1.5"></div>
+ </div><div class="hint">Заполненные данные будут сохранены только в локальном хранилище этого браузера. Перед использованием сверяйте их с документами автомобиля.</div>
+ <button class="btn primary" style="margin-top:10px;width:100%" id="addCar">Сохранить автомобиль</button>
+</div></details>
+</aside>
+<main class="main">
+<div class="hero">
+ <div class="spec"><div class="spec-head"><strong>Исходный комплект</strong><span class="tag">BASELINE</span></div><div class="spec-size"><b id="baseSize">225/45 R17</b><span id="baseRim">7.5J · ET51</span></div><div class="minirow"><span id="baseDia">Ø 634.3 мм</span><span id="baseSide">Боковина 101.3 мм</span></div></div>
+ <div class="spec"><div class="spec-head"><strong>Новый комплект</strong><span class="tag new">CANDIDATE</span></div><div class="spec-size"><b id="newSize">225/40 R18</b><span id="newRim">7.5J · ET51</span></div><div class="minirow"><span id="newDia">Ø 637.2 мм</span><span id="newSide">Боковина 90 мм</span></div></div>
+</div>
+<section class="panel visual-panel">
+ <div class="visual-head"><div><h2>3D-примерка диска</h2><div class="sub" style="margin:4px 0 0">Перетаскивайте колесо мышью или пальцем, чтобы повернуть. Это интерактивная геометрическая модель колеса; модель кузова ниже является схематичным силуэтом выбранного типа кузова.</div></div><div class="view-controls"><button class="active" data-wheel="candidate">Новый комплект</button><button data-wheel="base">Исходный</button></div></div>
+ <div class="visual-grid">
+  <div class="stage"><canvas id="wheelCanvas" aria-label="Интерактивная визуализация колеса"></canvas><div class="stage-badge" id="wheelBadge">225/40 R18 · 7.5J</div><div class="stage-help">↔ Потяните для вращения · колесо мыши / ползунок меняют ракурс</div></div>
+  <div class="side-controls">
+   <div class="control-card"><h3>Дизайн диска</h3><div class="field"><label>Стиль спиц</label><select id="wheelStyle"><option value="five">5 спиц</option><option value="ten" selected>10 спиц</option><option value="mesh">Многоспицевый</option><option value="turbine">Турбина</option></select></div><div class="field"><label>Цвет</label><div class="swatches" id="swatches"><button class="swatch active" data-color="#becbd6" style="background:#becbd6" title="Серебро"></button><button class="swatch" data-color="#343d48" style="background:#343d48" title="Графит"></button><button class="swatch" data-color="#111820" style="background:#111820" title="Чёрный"></button><button class="swatch" data-color="#a66b3f" style="background:#a66b3f" title="Бронза"></button><button class="swatch" data-color="#d7d9db" style="background:#d7d9db" title="Светлый металл"></button><button class="swatch" data-color="#8d2734" style="background:#8d2734" title="Красный"></button></div></div></div>
+   <div class="control-card"><h3>Положение модели</h3><div class="range-row"><span>Поворот</span><b id="angleLabel">−18°</b></div><input id="angle" type="range" min="-80" max="80" value="-18" style="width:100%;accent-color:#55dcca"><div class="btnrow" style="margin-top:8px"><button class="btn small" id="frontView">Вид спереди</button><button class="btn small" id="sideView">Сбоку</button></div></div>
+   <div class="control-card"><h3>Масштаб / справка</h3><div class="range-row"><span>Масштаб</span><b id="zoomLabel">100%</b></div><input id="zoom" type="range" min="75" max="125" value="100" style="width:100%;accent-color:#55dcca"><p class="hint">Реальный рисунок диска и зазор до суппорта зависят от конкретной модели диска, а не только от J и ET.</p></div>
+  </div>
+ </div>
+ <div class="tech-wrap"><div class="tech-head"><b>Технический чертёж · сравнение геометрии</b><span>Синий — исходный · оранжевый — новый</span></div><canvas id="techCanvas"></canvas><div class="legend"><span><i style="background:#61b9ff"></i>Исходный комплект</span><span><i style="background:#ffb85c"></i>Новый комплект</span><span>Схема не в масштабе конкретной ступицы</span></div></div>
+ <div class="tech-wrap"><div class="tech-head"><b>Примерка в арке · <span id="carModelCaption">модель кузова</span></b><span>Сравнение радиуса колеса</span></div><canvas id="carCanvas"></canvas><div class="legend"><span><i style="background:#61b9ff"></i>Исходный диаметр</span><span><i style="background:#ffb85c"></i>Новый диаметр</span><span>Силуэт по модели и типу кузова; не заводской CAD</span></div></div>
+</section>
+<div class="metrics">
+ <div class="metric"><span>Разница диаметра</span><b id="mDia">+2.9 мм</b><small id="mDiaPct">+0.46%</small></div>
+ <div class="metric"><span>Изменение клиренса</span><b id="mClear">+1.4 мм</b><small>По радиусу колеса</small></div>
+ <div class="metric"><span>Спидометр при 100</span><b id="mSpeed">100.5 км/ч</b><small>Расчётная фактическая скорость</small></div>
+ <div class="metric"><span>Вылет / положение</span><b id="mOffset">0 мм</b><small>Смещение наружной кромки диска</small></div>
+</div>
+<section class="panel"><div class="vehiclebar"><div><h2>Сравнение размеров и посадки</h2><p class="sub" style="margin:4px 0 0">Номинальные размеры шин и расчётная геометрия обода.</p></div><button class="btn small" id="exportCsv">Экспорт CSV</button></div>
+ <div class="table-wrap"><table><thead><tr><th>Параметр</th><th>Исходный</th><th>Новый</th><th>Разница</th></tr></thead><tbody>
+  <tr><td>Внешний диаметр шины</td><td id="tDiaB">634.3 мм</td><td id="tDiaN">637.2 мм</td><td id="tDiaD">+2.9 мм</td></tr>
+  <tr><td>Высота боковины</td><td id="tSideB">101.3 мм</td><td id="tSideN">90.0 мм</td><td id="tSideD">−11.3 мм</td></tr>
+  <tr><td>Окружность</td><td id="tCircB">1992.7 мм</td><td id="tCircN">2001.8 мм</td><td id="tCircD">+9.1 мм</td></tr>
+  <tr><td>Ширина диска</td><td id="tRimB">190.5 мм</td><td id="tRimN">190.5 мм</td><td id="tRimD">0.0 мм</td></tr>
+  <tr><td>Наружная кромка диска</td><td id="tOuterB">44.3 мм</td><td id="tOuterN">44.3 мм</td><td id="tOuterD">0.0 мм</td></tr>
+  <tr><td>Внутренняя кромка диска</td><td id="tInnerB">146.3 мм</td><td id="tInnerN">146.3 мм</td><td id="tInnerD">0.0 мм</td></tr>
+ </tbody></table></div><div class="table-note">Положительное изменение наружной кромки означает, что она выходит дальше наружу. Положительное изменение внутренней кромки означает, что она уходит глубже к подвеске.</div>
+</section>
+<section class="panel"><h2>Проверка совместимости</h2><p class="sub">Сравниваются монтажные параметры и введённые вами фактические зазоры.</p><div class="checks" id="compatChecks"></div></section>
+<section class="panel"><h2>Калькулятор зазоров автомобиля</h2><p class="sub">Введите измеренные зазоры на исходном комплекте. Оставьте поле пустым, если значение неизвестно.</p>
+ <div class="clearance-inputs">
+  <div class="field"><label>До стойки / подвески, мм</label><input id="gapInner" type="number" min="0" step="1" placeholder="Напр. 15"></div>
+  <div class="field"><label>До кромки крыла, мм</label><input id="gapOuter" type="number" min="0" step="1" placeholder="Напр. 12"></div>
+  <div class="field"><label>До арки сверху, мм</label><input id="gapTop" type="number" min="0" step="1" placeholder="Напр. 25"></div>
+  <div class="field"><label>Зазор до суппорта, мм</label><input id="gapBrake" type="number" min="0" step="1" placeholder="Необязательно"></div>
+ </div>
+ <div class="result-list" id="clearanceResults"><div class="result-line"><span>Заполните измеренные зазоры</span><b>—</b></div></div>
+ <div class="hint">Зазоры пересчитываются приближённо относительно исходного колеса. Для шины изменение ширины оценивается по номиналу и ширине обода; фактическая ширина зависит от модели покрышки. Для суппорта численная оценка по ET/J невозможна: важны форма спиц, профиль внутреннего обода и тормозной пакет.</div>
+</section>
+<section class="panel"><div class="vehiclebar"><div><h2>Гараж конфигураций</h2><p class="sub" style="margin:4px 0 0">Сохраняйте варианты, возвращайтесь к ним и переносите гараж между устройствами через JSON.</p></div><div class="btnrow"><button class="btn small" id="exportJson">Экспорт JSON</button><button class="btn small" id="importJson">Импорт JSON</button><input id="importFile" type="file" accept="application/json,.json" hidden><button class="btn small" id="print">Печать / PDF</button></div></div>
+ <div id="savedList" class="saved-list"><div class="empty">Пока нет сохранённых конфигураций. Добавьте текущий комплект в гараж.</div></div>
+ <div class="divider"></div><h2 style="font-size:13px">Сравнение сохранённых комплектов</h2><div class="table-wrap" id="savedCompare"><div class="empty">Сохранённые варианты появятся здесь.</div></div>
+</section>
+<div class="notice"><b>Важно.</b> WheelLab выполняет геометрическое сравнение, но не выдаёт юридическое разрешение на установку. Проверяйте допуски по VIN/CoC/табличке автомобиля и документации производителя дисков и шин. Зазоры меняются при повороте руля, ходе подвески, нагрузке и деформации шины. Совместимость с тормозным суппортом требует шаблона тормозов или физической примерки.</div>
+<section class="panel"><h2>Источники справочных данных</h2><p class="sub">База содержит 93 профиля поколений и кузовов. Значения сверены по доступным заводским материалам и профильным каталогам; это не все сочетания каждого двигателя/рынка и не замена CoC.</p>
+ <div class="source-list">
+  <a href="https://cdn.bbs.com/static/assets/images/service/pdfEn/Anwendungsliste_2020.pdf" target="_blank" rel="noopener">BBS · таблица применяемости Fabia 6Y / 5J</a>
+  <a href="https://cdn.skoda-storyboard.com/2021/04/SKODA_FABIA_Wheels.pdf" target="_blank" rel="noopener">Škoda Auto · официальные диски Fabia IV</a>
+  <a href="https://carwheeldata.com/size/skoda/fabia/" target="_blank" rel="noopener">Skoda Fabia · поколения, PCD и ступица</a>
+  <a href="https://www.skoda-auto.de/_doc/dd950243-6ffa-41d2-9cb7-0b69efd39648" target="_blank" rel="noopener">TÜV Hessen · типовые допуски Škoda (PDF)</a>
+  <a href="https://naudotasauto.lt/en/ratlankiai/skoda-octavia" target="_blank" rel="noopener">Skoda Octavia · PCD, ЦО и шины по поколениям</a>
+  <a href="https://naudotasauto.lt/en/ratlankiai/skoda-superb" target="_blank" rel="noopener">Skoda Superb · PCD, ЦО и шины по поколениям</a>
+  <a href="https://cdn.skoda-storyboard.com/2024/03/Superb_Combi_Wheels_477d8eb4.pdf" target="_blank" rel="noopener">Škoda Auto · каталог колёс Superb Combi</a>
+  <a href="https://hubcentric-rings.com/car_models/volkswagen/golf/" target="_blank" rel="noopener">Volkswagen Golf · PCD/ЦО по поколениям</a>
+  <a href="https://carwheeldata.com/size/volkswagen/polo/" target="_blank" rel="noopener">Volkswagen Polo · поколения и размеры</a>
+  <a href="https://carwheeldata.com/size/volkswagen/golf/" target="_blank" rel="noopener">Volkswagen Golf · поколения и размеры</a>
+  <a href="https://carwheeldata.com/size/volkswagen/passat/2008/" target="_blank" rel="noopener">Volkswagen Passat B6 · каталог размеров 2008</a>
+  <a href="https://carwheeldata.com/size/volkswagen/passat/" target="_blank" rel="noopener">Volkswagen Passat · поколения и размеры</a>
+  <a href="https://myair-bdr.bmwgroup.com/static/manual/RadReif/RadReif/00/mj2008/e90_2008.htm" target="_blank" rel="noopener">BMW Group · официальный E90 wheel guide</a>
+  <a href="https://myair-bdr.bmwgroup.com/static/manual/RadReif/downloads/Rad-Reifen/M-GmbH/F8xM_2016.pdf" target="_blank" rel="noopener">BMW M · F80 M3/F82/F83 wheel guide</a>
+  <a href="https://www.bmw.com/content/dam/bmw/marketAU/common/images/BMW_M3_Specification_Guide_G80.pdf.asset.1646282188025.pdf" target="_blank" rel="noopener">BMW · M3 G80 official specifications</a>
+  <a href="https://monentraxe.fr/en/bmw/3-serie-f30" target="_blank" rel="noopener">BMW F30 · PCD, hub and thread</a>
+  <a href="https://monentraxe.fr/en/bmw/3-serie-g20-g21" target="_blank" rel="noopener">BMW G20/G21 · PCD, hub and thread</a>
+  <a href="https://www.adac.de/rund-ums-fahrzeug/autokatalog/marken-modelle/bmw/3er-reihe/" target="_blank" rel="noopener">ADAC · поколения BMW 3 Series</a>
+  <a href="https://www.bmw.com/content/dam/bmw/common/topics/fascination-bmw/bmw-efficientdynamics-2020/tyre-energy-labels/pdf/G20_Reifenliste.pdf.asset.1619623681908.pdf" target="_blank" rel="noopener">BMW Group · G20 tyre catalogue</a>
+  <a href="https://carwheeldata.com/size/kia/carnival/" target="_blank" rel="noopener">Kia Carnival · поколения, рынки и PCD</a>
+  <a href="https://www.kia.com/content/dam/kia2/in/en/content/carnival-manual/topics/chapter9_7.html" target="_blank" rel="noopener">Kia · официальный справочник шин/дисков Carnival</a>
+  <a href="https://pcd-diski.ru/catalog/kia/kia_carnival" target="_blank" rel="noopener">Kia Carnival · разница VQ по PCD и ЦО</a>
+  <a href="https://www.rehvidemaailm.ee/en/valuveljed/toyota/corolla/4347/e150-2007-2010/8834" target="_blank" rel="noopener">Rehvidemaailm · Corolla E150</a>
+ </div>
+ <p class="foot" style="margin-top:12px">В выпадающих списках каждый кузов выбран отдельно. Для BMW E90/F30/G20 и спортивных модификаций возможны раздельные передние/задние размеры и особые тормозные пакеты. Для ранних Polo/Golf/Passat, GTI/VR6, BMW со staggered-комплектами и Kia Carnival VQ сверяйте PCD, ЦО, резьбу и допуски по VIN, CoC и маркировке штатного диска. В VQ отдельно показаны 5- и 6-болтовые варианты. Пользовательские записи не проверяются автоматически.</p>
+</section>
+</main></div></div>
+<div class="toast" id="toast"></div>
+<script src="./app-01.js"></script>
+<script src="./app-02.js"></script>
+<script src="./app-03.js"></script>
+<script src="./app-04.js"></script>
+<script src="./app-05.js"></script>
+<script src="./app-06.js"></script>
+<script src="./app-07.js"></script>
+<script src="./app-08.js"></script>
+</body></html>
