@@ -1,16 +1,9 @@
-const CACHE='wheellab-pro-2.1.0';
+const CACHE='wheellab-pro-2.1.1';
 const ASSETS=[
   './',
   './index.html',
   './styles.css',
-  './app-01.js',
-  './app-02.js',
-  './app-03.js',
-  './app-04.js',
-  './app-05.js',
-  './app-06.js',
-  './app-07.js',
-  './app-08.js',
+  './app.js',
   './manifest.webmanifest',
   './icon.svg'
 ];
