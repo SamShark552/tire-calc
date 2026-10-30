@@ -1,0 +1,17 @@
+{
+  "name": "WheelLab Pro",
+  "short_name": "WheelLab",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a1119",
+  "theme_color": "#0a1119",
+  "description": "Wheel and tyre fitment calculator",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
